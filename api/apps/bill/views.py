@@ -11,7 +11,7 @@ from .utils import store_bill_details
 @api_view(['POST'])
 def create_bill(request):
     bill_data = request.data
-
+    
     bill = store_bill_details(bill_data)
     if bill:
         response = {
