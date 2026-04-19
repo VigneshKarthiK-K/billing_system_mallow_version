@@ -8,9 +8,12 @@ def store_bill_details(bill_data):
         email = bill_data['email']
         products_and_quantities = bill_data['products_and_quantities']
         payment_method = bill_data['payment_method']
+        deno_object = bill_data.get('deno', {})
+
         bill = Bill.objects.create(
             customer_email=email,
-            payment_method=payment_method
+            payment_method=payment_method,
+            deno_object=deno_object
         )
 
         for item in products_and_quantities:

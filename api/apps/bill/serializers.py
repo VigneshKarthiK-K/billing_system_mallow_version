@@ -28,6 +28,7 @@ class BillSerializer(serializers.ModelSerializer):
             'total_without_tax',
             'total_tax',
             'net_price',
+            'deno_object',
             'created_at'
         ]
 

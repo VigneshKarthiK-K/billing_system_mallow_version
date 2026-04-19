@@ -14,6 +14,7 @@ class Bill(models.Model):
     total_without_tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     net_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    deno_object = models.JSONField(default=dict)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
