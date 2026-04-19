@@ -127,7 +127,11 @@ const ItemRow = memo(({
       />
 
       <Button variant='contained' color='error' sx={{width: '10%'}}
-        onClick={() => remove(index)}
+        onClick={() => {
+          if (values.itemsAndQuantity.length > 1) {
+            remove(index)
+          }
+        }}
       >
         <CloseIcon/>
       </Button>
