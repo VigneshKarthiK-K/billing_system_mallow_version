@@ -28,36 +28,3 @@ def seed_products():
     else:
         print("Products already seeded")
 
-
-# class TotalAmountCalculator:
-
-#     def __init__(self, products_and_quantities):
-#         self.products_and_quantities = products_and_quantities
-
-#     def tax_calculator(self, amount, tax_percent):
-#         tax = amount * (tax_percent/100)
-#         return tax
-
-#     def calculateQuantityAmountAndTax(self, product, quantity):
-#         print('product.price_per_unit', product.price_per_unit, quantity)
-#         amount = product.price_per_unit * quantity
-#         tax = self.tax_calculator(amount, product.tax_percentage)
-#         return amount + tax
-
-#     def calculate(self):
-#         total_amount = 0
-#         for pq in self.products_and_quantities:
-#             product_id = pq.get('product_id', False)
-#             quantity = pq.get('quantity', False)
-#             print('product_id', product_id)
-#             print('quantity', quantity)
-#             if product_id and quantity:
-#                 product_id = int(product_id)
-#                 quantity = int(quantity)
-#                 product = Product.objects.get(product_id=product_id)
-#                 print('product', product)
-#                 full_amount = self.calculateQuantityAmountAndTax(product, quantity)
-#                 total_amount += full_amount
-    
-#         return total_amount
-    
