@@ -82,7 +82,6 @@ const ItemRow = memo(({
         getOptionLabel={(option) => option.label}
         value={iq.item}
         onChange={(e, value) => {
-          console.log('kvk value', value)
           setFieldValue(`itemsAndQuantity[${index}].item`, value)
         }}
         renderInput={(params) => (

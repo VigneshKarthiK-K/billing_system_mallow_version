@@ -38,7 +38,7 @@ function useFormConfigs() {
   }
 
   const onSubmit = (values) => {
-    console.log('tr in billForm onSubmit', values)
+    
     var products_and_quantities = arrangeItemIdAndQuantity(values.itemsAndQuantity)
 
     var bill_data = {
@@ -48,12 +48,6 @@ function useFormConfigs() {
     }
 
     setBillDetails(bill_data)
-    setTimeout(()=>{
-      console.log('billDetails first', billDetails)
-    })
-
-    // chatgpt here I need to set the values using billContext
-
     
   }
 

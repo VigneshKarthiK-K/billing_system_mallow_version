@@ -24,13 +24,13 @@ function VisitorForm() {
         .required('Company is required')
     }),
     onSubmit: async (values) => {
-      console.log('Form Data:', values)
+      
       var visitor_details = {
         name: values?.name,
         company: values?.company
       }
       var response = await registerVisitor(visitor_details)
-      console.log('response', response)
+      
       if (response.status === 201) {
         var message = response?.data?.message
         

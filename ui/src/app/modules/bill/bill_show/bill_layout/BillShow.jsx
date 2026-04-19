@@ -155,11 +155,8 @@ function BillSummary({bill}) {
 function DenoSummary({bill}) {
   
   const customerGiven = getTotalAmount(bill?.deno_object)
-  console.log('customerGiven', customerGiven)
   const repay_deno_object = getReturnDenominations({paidAmount: customerGiven, netPrice: bill?.net_price})
   const balance_total = getTotalAmount(repay_deno_object)
-  console.log('repay_deno_object', repay_deno_object)
-  console.log('balance_total', balance_total)
 
   return (
     <Paper

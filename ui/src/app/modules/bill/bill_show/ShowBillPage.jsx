@@ -8,12 +8,12 @@ import { Container, Stack, Typography } from '@mui/material';
 
 function ShowBillPage() {
   const { bill_id } = useParams()
-  console.log('kvk bill_id', bill_id)
+
   const dispatch = useDispatch();
 
   // api
   const { bill, loading, error } = useSelector((state) => state.bill);
-  console.log('kvk bill', bill)
+  
   useEffect(() => {
     dispatch(fetchBillById(bill_id));
   }, [dispatch, bill_id]);
