@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Formik, FieldArray } from "formik"
 
 import { Button, TextField, CardHeader, ButtonGroup, Stack, Typography } from '@mui/material'
-import { ReceiptLongIcon, AddIcon, PaymentsIcon, CreditCardIcon, QrCodeScannerIcon } from '../../../../asserts/icons';
+import { ReceiptLongIcon, AddIcon, PaymentsIcon } from '../../../../asserts/icons';
 import { useFormConfigs } from './hooks';
 import ItemRow from './ItemRow';
 
@@ -64,17 +64,7 @@ function BillForm({cashClicked}) {
                     cashClicked() 
                   }}
                 >
-                  Cash
-                </Button>
-                <Button type='submit' color='secondary' title='Card' variant="contained" startIcon={<CreditCardIcon/>} 
-                  onClick={() => { setFieldValue('payment_method', 'card') }}
-                >
-                  Card
-                </Button>
-                <Button type='submit' color='warning' title='UPI' variant="contained" startIcon={<QrCodeScannerIcon/>} 
-                  onClick={() => { setFieldValue('payment_method', 'upi') }}
-                >
-                  UPI
+                  Submit
                 </Button>
               </ButtonGroup>
             </Stack>

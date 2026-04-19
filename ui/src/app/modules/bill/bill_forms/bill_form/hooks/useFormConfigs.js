@@ -4,7 +4,7 @@ import { billContext } from '../../BillContext';
 
 function useFormConfigs() {
 
-  const { billDetails, setBillDetails } = useContext(billContext)
+  const { setBillDetails } = useContext(billContext)
 
   const initialValues = {
     email: '',
@@ -48,7 +48,6 @@ function useFormConfigs() {
     }
 
     setBillDetails(bill_data)
-    
   }
 
   return {
