@@ -10,6 +10,7 @@ class SpinnerLoader:
         self.host = host
         self.port = port
         self.stop_event = threading.Event()
+        self.spinner_thread = threading.Thread(target=self.spinner)
 
     def wait_for_server(self, timeout=(3 * 60)):
         start = time.time()
@@ -21,9 +22,9 @@ class SpinnerLoader:
             time.sleep(0.5)
         return False
 
-    def spinner(self, stop_event):
+    def spinner(self):
         for char in itertools.cycle(['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏']):
-            if stop_event.is_set():
+            if self.stop_event.is_set():
                 break
             sys.stdout.write(f'\r📦 Starting {char}')
             sys.stdout.flush()
@@ -31,15 +32,14 @@ class SpinnerLoader:
 
     
     def run_with_spinner(self, process, stop_event, server_name=''):
-        spinner_thread = threading.Thread(target=self.spinner, args=(self.stop_event, ))
-        spinner_thread.start()
+        self.spinner_thread.start()
         first_time = True
         for line in process.stdout:
             if stop_event.is_set():
                 break
             if self.wait_for_server() and first_time:
                 self.stop_event.set()
-                spinner_thread.join()
+                self.spinner_thread.join()
                 sys.stdout.write("\r" + " " * 100 + "\r")
                 sys.stdout.flush()
                 print(f"✅ {server_name} Server Started Successfully!\n")
@@ -118,9 +118,9 @@ if __name__ == "__main__":
         frontend_process.wait()
     except KeyboardInterrupt:
         print("Shutting down...")
+        backend_process.terminate()
+        frontend_process.terminate()
         api_stop_event.set()
         ui_stop_event.set()
         api_thread.join()
         ui_thread.join()
-        backend_process.terminate()
-        frontend_process.terminate()
