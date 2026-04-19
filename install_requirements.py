@@ -19,11 +19,14 @@ class BackendInstaller:
         if not os.path.exists(os.path.join(self.backend_path, "venv")):
             self.run_command("python -m venv venv", cwd=self.backend_path, errorMsg='virtualenv creation failed')
 
-    def get_virtualenv_path(self):
+    def get_virtualenv_paths(self):
         if os.name == "nt":
-            self.pip_path = os.path.join(self.backend_path, "venv", "Scripts", "pip")
+            base = os.path.join(self.backend_path, "venv", "Scripts")
         else:
-            self.pip_path = os.path.join(self.backend_path, "venv", "bin", "pip")        
+            base = os.path.join(self.backend_path, "venv", "bin")
+
+        self.pip_path = os.path.join(base, "pip")
+        self.python_path = os.path.join(base, "python")
 
     def install_api_requirements(self):
         print("Installing backend requirements...")
@@ -37,7 +40,7 @@ class BackendInstaller:
 
     def install_backend(self):
         self.create_virtualenv()
-        self.get_virtualenv_path()
+        self.get_virtualenv_paths()
         self.install_api_requirements()
         self.run_migrations()
 
