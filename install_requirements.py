@@ -30,10 +30,16 @@ class BackendInstaller:
         self.run_command(f"{self.pip_path} install -r requirements.txt", cwd=self.backend_path, errorMsg='Backend requirement installation failed')
         print('Successfully Installed backend requirements')
 
+    def run_migrations(self):
+        print("Running database migrations...")
+        self.run_command(f"{self.python_path} manage.py migrate", cwd=self.backend_path, errorMsg='Migration failed')
+        print("✅ Migrations applied successfully")
+
     def install_backend(self):
         self.create_virtualenv()
         self.get_virtualenv_path()
         self.install_api_requirements()
+        self.run_migrations()
 
 class FrontendInstaller:
 
