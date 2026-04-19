@@ -7,7 +7,7 @@ import { ReceiptLongIcon, AddIcon, PaymentsIcon, CreditCardIcon, QrCodeScannerIc
 import { useFormConfigs } from './hooks';
 import ItemRow from './ItemRow';
 
-function BillForm() {
+function BillForm({cashClicked}) {
   
   const [totalAmount, setTotalAmount] = useState(0);
   const { 
@@ -18,12 +18,8 @@ function BillForm() {
   } = useFormConfigs()
 
   return (
-    
     <>
-      <CardHeader
-        avatar={<ReceiptLongIcon/>}
-        title="Create Bill Form"
-      />
+      <CardHeader title="Create Bill Form" avatar={<ReceiptLongIcon/>} />
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {({values, errors, touched, handleChange, handleSubmit, setFieldValue}) => (
           <form onSubmit={handleSubmit}>
@@ -48,35 +44,41 @@ function BillForm() {
                       arrangeItemIdAndQuantity={arrangeItemIdAndQuantity} 
                     />
                   ))}
-
                   <Stack flexDirection='row' justifyContent={'space-between'} alignItems={'center'} alignContent={'center'} sx={{mt: 2}}>
-
                     <Typography sx={{mr: 2, px: 2, py: 1, textWrap: 'nowrap'}}>
                       <span style={{fontSize: 15, color: 'gray'}}>Total Amount (tax inc):</span> {totalAmount}
                     </Typography>
-                    
-
                     <Button color='success' variant="contained" sx={{minWidth: '43px', width: '43px', ml: 2}} onClick={() => push({ item: null, quantity: '' })}>
                       <AddIcon/>
                     </Button>
                   </Stack>
-
-                  <Stack flexDirection='row' justifyContent={'center'} alignItems={'center'} alignContent={'center'} sx={{mt: 2}}>
-                    <ButtonGroup>
-                      <Button color='info' title='Cash' type="submit" variant="contained" startIcon={<PaymentsIcon/>} onClick={() => { setFieldValue('payment_method', 'cash') }}>
-                        Cash
-                      </Button>
-                      <Button color='secondary' title='Card' type="submit" variant="contained" startIcon={<CreditCardIcon/>} onClick={() => { setFieldValue('payment_method', 'card') }}>
-                        Card
-                      </Button>
-                      <Button color='warning' title='UPI' type="submit" variant="contained" startIcon={<QrCodeScannerIcon/>} onClick={() => { setFieldValue('payment_method', 'upi') }}>
-                        UPI
-                      </Button>
-                    </ButtonGroup>
-                  </Stack>
                 </>
               )}
             </FieldArray>
+
+            <Stack flexDirection='row' justifyContent={'center'} alignItems={'center'} alignContent={'center'} sx={{mt: 2}}>
+              <ButtonGroup>
+                <Button type='submit' color='info' title='Cash' variant="contained" startIcon={<PaymentsIcon/>} 
+                  onClick={() => { 
+                    setFieldValue('payment_method', 'cash')
+                    cashClicked() 
+                  }}
+                >
+                  Cash
+                </Button>
+                <Button type='submit' color='secondary' title='Card' variant="contained" startIcon={<CreditCardIcon/>} 
+                  onClick={() => { setFieldValue('payment_method', 'card') }}
+                >
+                  Card
+                </Button>
+                <Button type='submit' color='warning' title='UPI' variant="contained" startIcon={<QrCodeScannerIcon/>} 
+                  onClick={() => { setFieldValue('payment_method', 'upi') }}
+                >
+                  UPI
+                </Button>
+              </ButtonGroup>
+            </Stack>
+
           </form>
         )}
       </Formik>

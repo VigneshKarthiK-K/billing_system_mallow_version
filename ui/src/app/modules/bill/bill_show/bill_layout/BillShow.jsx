@@ -5,6 +5,8 @@ import {
   Typography
 } from '@mui/material'
 import { PrintIcon } from '../../../../asserts/icons';
+import { getTotalAmount } from '../../bill_forms/deno_form/utils';
+import { getReturnDenominations } from './utils';
 
 function BillShow({bill}) {
   return (
@@ -30,7 +32,12 @@ function BillShow({bill}) {
         <strong>Email: </strong>{bill?.customer_email}
       </Typography>
       <BillTable bill={bill}/>
-      <BillSummary bill={bill}/>
+      {bill && (
+        <Stack direction={'row'} justifyContent={'space-around'}>
+          <DenoSummary bill={bill}/>
+          <BillSummary bill={bill}/>
+        </Stack>
+      )}
     </>
   )
 }
@@ -99,37 +106,38 @@ function BillTable({bill}) {
   )
 }
 
-function BillSummary({bill}) {
+const Row = ({ label, value, bold, negative }) => {
+  return (
+    <Stack direction="row" justifyContent="space-between">
+      <Typography>{label}</Typography>
+      <Typography
+        fontWeight={bold ? 'bold' : 'normal'}
+        color={negative ? 'error.main' : 'text.primary'}
+      >
+        {value}
+      </Typography>
+    </Stack>
+  );
+}
 
-  const Row = ({ label, value, bold, negative }) => {
-    return (
-      <Stack direction="row" justifyContent="space-between">
-        <Typography>{label}</Typography>
-        <Typography
-          fontWeight={bold ? 'bold' : 'normal'}
-          color={negative ? 'error.main' : 'text.primary'}
-        >
-          {Number(value).toFixed(2)}
-        </Typography>
-      </Stack>
-    );
-  }
+function BillSummary({bill}) {
 
   return (
     <Paper
       sx={{
-        mt: 3,
-        p: 3,
+        mt: 2,
+        px: 3,
+        py: 2,
         borderRadius: 3,
-        maxWidth: 500,
-        ml: 'auto', // 👈 right align
+        width: '45%',
+        maxHeight: '114px'
       }}
       elevation={3}
     >
       <Stack spacing={1.5}>
         
-        <Row label="Total price without tax:" value={bill?.total_without_tax} />
-        <Row label="Total tax payable:" value={bill?.total_tax} />
+        <Row label="Total price without tax:" value={Number(bill?.total_without_tax).toFixed(2)} />
+        <Row label="Total tax payable:" value={Number(bill?.total_tax).toFixed(2)} />
         
         <Divider />
 
@@ -139,6 +147,44 @@ function BillSummary({bill}) {
           bold
         />
 
+      </Stack>
+    </Paper>
+  )
+}
+
+function DenoSummary({bill}) {
+  
+  const customerGiven = getTotalAmount(bill?.deno_object)
+  console.log('customerGiven', customerGiven)
+  const repay_deno_object = getReturnDenominations({paidAmount: customerGiven, netPrice: bill?.net_price})
+  const balance_total = getTotalAmount(repay_deno_object)
+  console.log('repay_deno_object', repay_deno_object)
+  console.log('balance_total', balance_total)
+
+  return (
+    <Paper
+      sx={{
+        mt: 2,
+        py: 2,
+        px: 3,
+        borderRadius: 3,
+        width: '45%',
+      }}
+      elevation={3}
+    >
+      <Stack spacing={1.5}>
+        
+        {Object.keys(repay_deno_object).reverse().map(deno=>(
+          <Row label={`${deno}s`} value={repay_deno_object[deno]} />
+        ))}
+        
+        <Divider />
+
+        <Row
+          label="Balance:"
+          value={balance_total}
+          bold
+        />
       </Stack>
     </Paper>
   )

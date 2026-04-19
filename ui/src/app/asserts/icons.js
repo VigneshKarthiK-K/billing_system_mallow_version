@@ -5,3 +5,4 @@ export { default as PaymentsIcon } from '@mui/icons-material/Payments';
 export { default as CreditCardIcon } from '@mui/icons-material/CreditCard';
 export { default as QrCodeScannerIcon } from '@mui/icons-material/QrCodeScanner';
 export { default as PrintIcon } from '@mui/icons-material/Print';
+export { default as TollIcon } from '@mui/icons-material/Toll';

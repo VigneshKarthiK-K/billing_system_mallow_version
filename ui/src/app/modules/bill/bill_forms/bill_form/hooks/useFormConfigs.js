@@ -1,13 +1,10 @@
 import { useContext } from 'react';
 import * as Yup from 'yup'
-import { useNavigate } from 'react-router-dom';
-import { createBillApi } from '../../api';
-import { AlertContext } from '../../../../../components';
+import { billContext } from '../../BillContext';
 
 function useFormConfigs() {
 
-  const navigate = useNavigate();
-  const { showAlert } = useContext(AlertContext)
+  const { billDetails, setBillDetails } = useContext(billContext)
 
   const initialValues = {
     email: '',
@@ -40,29 +37,24 @@ function useFormConfigs() {
     return products_and_quantities
   }
 
-  const onSubmit = async (values) => {
-    console.log('values', values)
+  const onSubmit = (values) => {
+    console.log('tr in billForm onSubmit', values)
     var products_and_quantities = arrangeItemIdAndQuantity(values.itemsAndQuantity)
+
     var bill_data = {
       email: values.email,
       products_and_quantities: products_and_quantities,
       payment_method: values.payment_method
     }
-    var response = await createBillApi(bill_data)
-    
-    if (response.status === 201) {
-      var message = response?.data?.message
-      var bill_id = response?.data?.bill_id
-      
-      showAlert({
-        message: message, 
-        autoHideTime: 3000
-      })
 
-      setTimeout(() => {
-        navigate(`/bill/show/${bill_id}`);  
-      }, 3000);
-    }
+    setBillDetails(bill_data)
+    setTimeout(()=>{
+      console.log('billDetails first', billDetails)
+    })
+
+    // chatgpt here I need to set the values using billContext
+
+    
   }
 
   return {
